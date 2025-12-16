@@ -31,4 +31,8 @@ dist-ssr
 core
 
 .github/
+# ensure Actions workflows are tracked
+!.github/
+!.github/workflows/
+!.github/workflows/**
 
