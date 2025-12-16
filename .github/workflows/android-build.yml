@@ -1,0 +1,64 @@
+name: Build Android APK
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Android commandline tools and SDK packages
+        run: |
+          export ANDROID_HOME="$RUNNER_TEMP/android-sdk"
+          mkdir -p $ANDROID_HOME/cmdline-tools
+          curl -sS -o $RUNNER_TEMP/cmdline.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
+          unzip -q $RUNNER_TEMP/cmdline.zip -d $RUNNER_TEMP/cmdline
+          mkdir -p $ANDROID_HOME/cmdline-tools/latest
+          mv $RUNNER_TEMP/cmdline/cmdline-tools/* $ANDROID_HOME/cmdline-tools/latest/
+          export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH"
+          yes | sdkmanager --sdk_root=$ANDROID_HOME "platform-tools" "platforms;android-33" "build-tools;33.0.2"
+
+      - name: Accept licenses
+        run: |
+          export ANDROID_HOME="$RUNNER_TEMP/android-sdk"
+          yes | sdkmanager --sdk_root=$ANDROID_HOME --licenses || true
+
+      - name: Add Android tools to PATH
+        run: |
+          echo "$RUNNER_TEMP/android-sdk/platform-tools" >> $GITHUB_PATH
+          echo "$RUNNER_TEMP/android-sdk/cmdline-tools/latest/bin" >> $GITHUB_PATH
+          echo "$RUNNER_TEMP/android-sdk/emulator" >> $GITHUB_PATH
+
+      - name: Install expo-cli
+        run: npm install -g expo-cli
+
+      - name: Install dependencies (mobile)
+        working-directory: mobile
+        run: npm ci
+
+      - name: Prebuild Android (expo)
+        working-directory: mobile
+        run: npx expo prebuild -p android --no-install
+
+      - name: Build APK (Gradle)
+        working-directory: mobile/android
+        run: ./gradlew assembleRelease -x lint
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wrhse-android-apk
+          path: mobile/android/app/build/outputs/apk/release/*.apk
