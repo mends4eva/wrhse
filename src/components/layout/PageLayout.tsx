@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigation } from './Navigation';
+import { BottomNav } from './BottomNav';
 
 interface PageLayoutProps {
   children: React.ReactNode;
@@ -9,17 +9,16 @@ interface PageLayoutProps {
 
 export const PageLayout: React.FC<PageLayoutProps> = ({ children, title, subtitle }) => {
   return (
-    <div className="min-h-screen noise-texture">
-      <Navigation />
-      <main className="ml-64 p-8">
-        <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen noise-texture bg-wms-bg flex flex-col">
+      <main className="flex-1 p-4 md:p-8 pb-24">
+        <div className="max-w-2xl mx-auto">
           {/* Page Header */}
           <div className="mb-8 animate-fade-in">
-            <h1 className="font-display text-4xl font-bold text-white mb-2">
+            <h1 className="font-display text-3xl md:text-4xl font-bold text-white mb-2 text-balance">
               {title}
             </h1>
             {subtitle && (
-              <p className="text-gray-400 font-mono text-sm">{subtitle}</p>
+              <p className="text-gray-400 font-mono text-xs md:text-sm">{subtitle}</p>
             )}
           </div>
 
@@ -29,6 +28,7 @@ export const PageLayout: React.FC<PageLayoutProps> = ({ children, title, subtitl
           </div>
         </div>
       </main>
+      <BottomNav />
     </div>
   );
 };

@@ -94,6 +94,10 @@ module.exports = {
       backdropBlur: {
         'glass': '12px',
       },
+      screens: {
+        'xs': '320px',
+        ...require('tailwindcss/defaultConfig').theme.screens,
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
