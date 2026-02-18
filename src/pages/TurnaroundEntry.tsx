@@ -105,12 +105,12 @@ export const TurnaroundEntry: React.FC = () => {
 
   if (!isEnabled) {
     return (
-      <PageLayout title="Turnaround Time Entry" subtitle="Record vehicle turnaround times">
-        <Card className="glass-panel p-8 text-center">
+      <PageLayout title="Time Entry" subtitle="Record vehicle turnaround times">
+        <Card className="liquid-glass p-8 md:p-12 border-white/15 text-center">
           <AlertCircle className="w-16 h-16 text-wms-amber mx-auto mb-4" />
-          <h3 className="font-display text-xl font-bold text-white mb-2">Access Restricted</h3>
-          <p className="text-gray-400 font-mono text-sm">
-            This feature is only available to Permanent Staff members.
+          <h3 className="font-display text-xl md:text-2xl font-bold text-white mb-2">Access Restricted</h3>
+          <p className="text-gray-400 font-mono text-sm md:text-base">
+            This feature is only available to Staff members.
           </p>
         </Card>
       </PageLayout>
@@ -118,25 +118,25 @@ export const TurnaroundEntry: React.FC = () => {
   }
 
   return (
-    <PageLayout title="Turnaround Time Entry" subtitle="Record vehicle turnaround times for previous calendar day">
-      <div className="max-w-3xl">
-        <Card className="glass-panel p-8">
+    <PageLayout title="Turnaround Time" subtitle="Record vehicle entry and exit times">
+      <div className="max-w-2xl">
+        <Card className="liquid-glass p-6 md:p-8 border-white/15">
           {submitted ? (
-            <div className="text-center py-12 animate-fade-in">
-              <CheckCircle className="w-20 h-20 text-wms-green mx-auto mb-4 glow-text" />
-              <h3 className="font-display text-2xl font-bold text-white mb-2">Entry Submitted</h3>
-              <p className="text-gray-400 font-mono text-sm">
+            <div className="text-center py-12 md:py-16 animate-fade-in">
+              <CheckCircle className="w-20 h-20 md:w-24 md:h-24 text-wms-green mx-auto mb-4 glow-text" />
+              <h3 className="font-display text-2xl md:text-3xl font-bold text-white mb-2">Submitted!</h3>
+              <p className="text-gray-400 font-mono text-sm md:text-base">
                 Turnaround time recorded successfully
               </p>
             </div>
           ) : (
             <div className="space-y-6">
               {/* Date Info */}
-              <div className="p-4 rounded-lg bg-wms-cyan/10 border border-wms-cyan/30">
-                <div className="flex items-center gap-2 text-wms-cyan">
-                  <Clock className="w-5 h-5" />
-                  <span className="font-mono text-sm">
-                    Recording for: {new Date(Date.now() - 86400000).toLocaleDateString()}
+              <div className="p-4 rounded-lg liquid-glass-sm border border-wms-cyan/30 bg-wms-cyan/5">
+                <div className="flex items-center gap-3 text-wms-cyan">
+                  <Clock className="w-5 h-5 flex-shrink-0" />
+                  <span className="font-mono text-sm md:text-base">
+                    {new Date(Date.now() - 86400000).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
                   </span>
                 </div>
               </div>
@@ -156,11 +156,11 @@ export const TurnaroundEntry: React.FC = () => {
               </div>
 
               {/* Vehicle Type */}
-              <div className="space-y-2">
-                <Label className="text-gray-300 font-mono text-sm">Vehicle Type</Label>
+              <div className="space-y-3">
+                <Label className="text-gray-300 font-mono text-xs md:text-sm uppercase tracking-wide">Vehicle Type</Label>
                 <Select value={vehicleType} onValueChange={setVehicleType}>
-                  <SelectTrigger className="bg-wms-bg/50 border-white/20 text-white font-mono">
-                    <SelectValue placeholder="Select vehicle type" />
+                  <SelectTrigger className="bg-white/5 border-white/10 text-white font-mono h-11 md:h-12 text-base">
+                    <SelectValue placeholder="Select vehicle..." />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="truck-small">Small Truck (&lt; 5 tons)</SelectItem>
@@ -174,16 +174,16 @@ export const TurnaroundEntry: React.FC = () => {
 
               {/* Duration Preview */}
               {duration && (
-                <Card className="glass-panel p-6 border-wms-green/30 animate-fade-in">
-                  <h4 className="font-display text-lg font-bold text-white mb-3">Duration Preview</h4>
+                <Card className="liquid-glass p-6 md:p-8 border border-wms-green/30 bg-wms-green/5 animate-fade-in">
+                  <h4 className="font-display text-lg md:text-xl font-bold text-white mb-4">Duration</h4>
                   <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <p className="text-gray-400 text-xs font-mono mb-1">Formatted</p>
-                      <p className="text-wms-green text-2xl font-display font-bold">{duration.formatted}</p>
+                    <div className="text-center">
+                      <p className="text-gray-400 text-xs font-mono mb-2 uppercase tracking-wide">Formatted</p>
+                      <p className="text-wms-green text-3xl md:text-4xl font-display font-bold">{duration.formatted}</p>
                     </div>
-                    <div>
-                      <p className="text-gray-400 text-xs font-mono mb-1">Decimal Hours</p>
-                      <p className="text-wms-green text-2xl font-display font-bold">{duration.decimal}</p>
+                    <div className="text-center">
+                      <p className="text-gray-400 text-xs font-mono mb-2 uppercase tracking-wide">Decimal</p>
+                      <p className="text-wms-green text-3xl md:text-4xl font-display font-bold">{duration.decimal}h</p>
                     </div>
                   </div>
                 </Card>
@@ -193,14 +193,15 @@ export const TurnaroundEntry: React.FC = () => {
               <Button
                 onClick={handleSubmit}
                 disabled={!entryTime || !exitTime || !vehicleType}
-                className="w-full bg-wms-cyan hover:bg-wms-cyan/90 text-wms-bg font-accent text-lg py-6 rounded-xl transition-all duration-200 active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-gradient-to-r from-wms-cyan/30 to-wms-cyan/20 hover:from-wms-cyan/40 hover:to-wms-cyan/30 text-wms-cyan border border-wms-cyan/30 font-mono font-semibold text-base md:text-lg py-6 md:py-8 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                SUBMIT TURNAROUND ENTRY
+                <CheckCircle className="w-5 h-5 mr-2" />
+                Submit Entry
               </Button>
 
-              {/* Watermark Info */}
-              <div className="text-center text-gray-500 text-xs font-mono pt-4 border-t border-white/10">
-                Entry will be watermarked with: {user?.userId} • {user?.name} • {new Date().toLocaleString()}
+              {/* Info */}
+              <div className="text-center text-gray-500 text-xs md:text-sm font-mono pt-4 border-t border-white/10">
+                <p>{user?.userId} • {user?.name}</p>
               </div>
             </div>
           )}
