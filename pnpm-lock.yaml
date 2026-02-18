@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  '@radix-ui/react-visually-hidden': ^1.0.3
+
 importers:
 
   .:
@@ -135,10 +138,10 @@ importers:
         specifier: ^2.0.19
         version: 2.1.9(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-router:
-        specifier: ^6.22.3
+        specifier: ^6.21.0
         version: 6.30.3(react@18.3.1)
       react-router-dom:
-        specifier: ^6.22.3
+        specifier: ^6.21.0
         version: 6.30.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       tailwind-merge:
         specifier: ^2.3.0
