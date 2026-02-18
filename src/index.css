@@ -88,12 +88,12 @@
   }
   
   .liquid-glass-sm {
-    @apply bg-gradient-to-br from-white/8 to-white/3 backdrop-blur-[15px] border border-white/12;
+    @apply bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-[15px] border border-white/10;
     box-shadow: 0 4px 16px rgba(0, 217, 255, 0.08);
   }
   
   .liquid-glass:hover {
-    @apply from-white/15 to-white/8 border-white/25;
+    @apply from-white/20 to-white/10 border-white/20;
     box-shadow: 0 12px 40px rgba(0, 217, 255, 0.15);
   }
   
